@@ -1,0 +1,70 @@
+<h2>Search countries</h2>
+<mat-form-field>
+    <mat-select placeholder="Search by regions" (selectionChange)="onRegionSelectionChange($event)">
+        <mat-option *ngFor="let option of regionFilterOptions" [value]="option.value">
+          {{option.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-select placeholder="Search by countries" (selectionChange)="onCountrySelectionChange($event)">
+        <mat-option *ngFor="let option of countryFilterOptions" [value]="option.value">
+          {{option.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-select placeholder="Set from" (selectionChange)="onYearFromSelectionChange($event)">
+        <mat-option *ngFor="let option of fromFilterOptions" [value]="option.value">
+          {{option.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-select placeholder="Set to" (selectionChange)="onYearToSelectionChange($event)">
+        <mat-option *ngFor="let option of toFilterOptions" [value]="option.value">
+          {{option.name}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+
+    <ng-container matColumnDef="name_continent">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> name_continent </th>
+        <td mat-cell *matCellDef="let element"> {{element.country?.region?.continent?.name ?? "-"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name_region">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> name_region </th>
+        <td mat-cell *matCellDef="let element"> {{element.country?.region?.name  ?? "-"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name_country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> name_country </th>
+        <td mat-cell *matCellDef="let element"> {{element.country?.name ?? "-"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> year </th>
+        <td mat-cell *matCellDef="let element"> {{element.id?.year ?? "-"}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="population">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> population </th>
+        <td mat-cell *matCellDef="let element"> {{element.population | number:'1.0-0' }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="gdp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> gdp </th>
+        <td mat-cell *matCellDef="let element"> {{element.gdp | number:'1.0-0' }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[10, 25, 100]" aria-label="Select page"></mat-paginator>

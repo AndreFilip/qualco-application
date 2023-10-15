@@ -1,0 +1,9 @@
+<ng-container *ngIf="countryLanguages; else empty">
+    <h2>{{countryLanguages[0].country.name}}</h2>
+
+    <ul>
+        <li *ngFor="let cl of countryLanguages">{{cl.language.language}} <span *ngIf="cl.official">(official)</span></li>
+    </ul>
+</ng-container>
+
+<ng-template #empty>No languages available</ng-template>
